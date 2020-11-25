@@ -13,6 +13,72 @@ namespace Music_Playlist
                 { 2, "Dobro da nije vece zlo" },
                 { 3, "Miris karmina" }
             };
+
+            MainMenu(playlist);          
+        }
+        static void IspisListe(Dictionary<int,string> playlist)
+        {
+            foreach(var pair in playlist)
+            {
+                Console.WriteLine("Redni broj pjesme: " + pair.Key + " Ime pjesme: " + pair.Value);
+            }
+        }
+        static void IspisBrojem(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi redni broj pjesme cije ime zelis saznati: ");
+            var redniBroj = int.Parse(Console.ReadLine());
+            if(redniBroj > playlist.Count)
+                Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
+            else
+                foreach(var number in playlist)
+                {
+                    if(redniBroj == number.Key)
+                    Console.WriteLine("Pjesma pod rednim brojem " + redniBroj + " je: " + number.Value);
+                }
+        }
+        static void IspisImenom(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi ime pjesme ciji redni broj zelis saznati: ");
+            var imePjesme = Console.ReadLine();
+            var postojiLiPjesma = 0;
+            foreach(var name in playlist)
+            {
+
+                if (imePjesme == name.Value)
+                {
+                    Console.WriteLine("Pjesma pod imenom: " + imePjesme + " je pod rednim brojem: " + name.Key);
+                    postojiLiPjesma = 1;
+                }   
+            }
+            if(postojiLiPjesma == 0)
+                Console.WriteLine("Ne postoji pjesma pod tim imenom!");
+        }
+        static void UnosPjesme(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi ime pjesme koju zelis dodati u playlistu: ");
+            var imeNovePjesme = Console.ReadLine();
+            var redniBrojNovePjesme = playlist.Count + 1;
+            var postojiLiPjesma = 0;
+
+            foreach(var name in playlist)
+            {
+                if (imeNovePjesme == name.Value)
+                {
+                    Console.WriteLine("Vec postoji pjesma pod tim nazivom!");
+                    postojiLiPjesma = 1;
+                }
+            }
+            
+            if(postojiLiPjesma == 0)
+            {
+                Console.WriteLine("Ako si siguran da zelis dodati pjesmu: " + imeNovePjesme + " onda upisi DA");
+                var potvrda = Console.ReadLine();
+                if(potvrda == "DA")
+                    playlist.Add(redniBrojNovePjesme, imeNovePjesme);
+            }
+        }
+        static void MainMenu(Dictionary<int, string> playlist)
+        {
             var choice = 0;
             do
             {
@@ -32,12 +98,16 @@ namespace Music_Playlist
                 switch (choice)
                 {
                     case 1:
+                        IspisListe(playlist);
                         break;
                     case 2:
+                        IspisBrojem(playlist);
                         break;
                     case 3:
+                        IspisImenom(playlist);
                         break;
                     case 4:
+                        UnosPjesme(playlist);
                         break;
                     case 5:
                         break;
