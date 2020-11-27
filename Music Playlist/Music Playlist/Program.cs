@@ -64,6 +64,58 @@ namespace Music_Playlist
                     playlist.Add(redniBrojNovePjesme, imeNovePjesme);
             }
         }
+        static void BrisiRednimBrojem(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi redni broj pjesme koju zelis izbrisati iz playliste: ");
+            var redniBrojBrisanePjesme = int.Parse(Console.ReadLine());
+            if(playlist.ContainsKey(redniBrojBrisanePjesme))
+            {
+                    Console.WriteLine("Ako si siguran da zelis izbrisati pjesmu: " + playlist[redniBrojBrisanePjesme] + " onda upisi DA");
+                    var potvrda = Console.ReadLine();
+                    if (potvrda == "DA")
+                    {
+                        for (var i = redniBrojBrisanePjesme; i < playlist.Count; i++) {
+                            playlist[i] = playlist[i + 1];
+                        }
+                        playlist.Remove(playlist.Count);
+                    }
+            }
+            else
+                Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
+        }
+        static void BrisiImenom(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi ime pjesme koju zelis izbrisati iz playliste: ");
+            var imeBrisanePjesme = Console.ReadLine();
+            if (playlist.ContainsValue(imeBrisanePjesme))
+            {
+                Console.WriteLine("Ako si siguran da zelis izbrisati pjesmu: " + imeBrisanePjesme + " onda upisi DA");
+                var potvrda = Console.ReadLine();
+                if (potvrda == "DA")
+                {
+                    var redniBrojBrisanePjesme = 0;
+                    foreach (var name in playlist)
+                    { 
+                        if (imeBrisanePjesme == name.Value)
+                             redniBrojBrisanePjesme = name.Key;
+                    }
+                    for(var i = redniBrojBrisanePjesme; i < playlist.Count; i++)
+                    {
+                        playlist[i] = playlist[i + 1];
+                    }
+                    playlist.Remove(playlist.Count);
+                }
+            }
+            else
+                Console.WriteLine("Ne postoji pjesma pod tim imenom!");
+        }
+        static void BrisiPlaylistu(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Ako si siguran da zelis izbrisati cijelu playlistu onda upisi DA");
+            var potvrda = Console.ReadLine();
+            if (potvrda == "DA")
+                playlist.Clear();
+        }
         static void MainMenu(Dictionary<int, string> playlist)
         {
             var choice = 0;
@@ -97,10 +149,13 @@ namespace Music_Playlist
                         UnosPjesme(playlist);
                         break;
                     case 5:
+                        BrisiRednimBrojem(playlist);
                         break;
                     case 6:
+                        BrisiImenom(playlist);
                         break;
                     case 7:
+                        BrisiPlaylistu(playlist);
                         break;
                     case 8:
                         break;
