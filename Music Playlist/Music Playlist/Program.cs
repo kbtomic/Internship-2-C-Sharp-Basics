@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Music_Playlist
 {
@@ -27,30 +28,24 @@ namespace Music_Playlist
         {
             Console.WriteLine("Unesi redni broj pjesme cije ime zelis saznati: ");
             var redniBroj = int.Parse(Console.ReadLine());
-            if(redniBroj > playlist.Count)
-                Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
+            if(playlist.ContainsKey(redniBroj))
+                Console.WriteLine(playlist[redniBroj]);
             else
-                foreach(var number in playlist)
-                {
-                    if(redniBroj == number.Key)
-                    Console.WriteLine("Pjesma pod rednim brojem " + redniBroj + " je: " + number.Value);
-                }
+                Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
         }
         static void IspisImenom(Dictionary<int, string> playlist)
         {
             Console.WriteLine("Unesi ime pjesme ciji redni broj zelis saznati: ");
             var imePjesme = Console.ReadLine();
-            var postojiLiPjesma = 0;
-            foreach(var name in playlist)
+            if(playlist.ContainsValue(imePjesme))
             {
-
-                if (imePjesme == name.Value)
+                foreach (var name in playlist)
                 {
-                    Console.WriteLine("Pjesma pod imenom: " + imePjesme + " je pod rednim brojem: " + name.Key);
-                    postojiLiPjesma = 1;
-                }   
+                    if (imePjesme == name.Value)
+                        Console.WriteLine("Pjesma pod imenom: " + imePjesme + " je pod rednim brojem: " + name.Key);
+                }
             }
-            if(postojiLiPjesma == 0)
+            else
                 Console.WriteLine("Ne postoji pjesma pod tim imenom!");
         }
         static void UnosPjesme(Dictionary<int, string> playlist)
@@ -58,18 +53,10 @@ namespace Music_Playlist
             Console.WriteLine("Unesi ime pjesme koju zelis dodati u playlistu: ");
             var imeNovePjesme = Console.ReadLine();
             var redniBrojNovePjesme = playlist.Count + 1;
-            var postojiLiPjesma = 0;
 
-            foreach(var name in playlist)
-            {
-                if (imeNovePjesme == name.Value)
-                {
+            if (playlist.ContainsValue(imeNovePjesme)) 
                     Console.WriteLine("Vec postoji pjesma pod tim nazivom!");
-                    postojiLiPjesma = 1;
-                }
-            }
-            
-            if(postojiLiPjesma == 0)
+            else
             {
                 Console.WriteLine("Ako si siguran da zelis dodati pjesmu: " + imeNovePjesme + " onda upisi DA");
                 var potvrda = Console.ReadLine();
