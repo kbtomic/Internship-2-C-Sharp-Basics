@@ -178,7 +178,22 @@ namespace Music_Playlist
             if (potvrda == "DA")
                 playlist.Clear();
         }
-        
+        static void Shuffle(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Ako si siguran da zelis shuffleati cijelu playlistu onda upisi DA");
+            var potvrda = Console.ReadLine();
+            if (potvrda == "DA")
+            {
+                var random = new Random();
+                for (int i = 1; i <= playlist.Count; i++)
+                {
+                    var randomRedniBroj = random.Next(1, playlist.Count);
+                    var imeTrenutnePjesme = playlist[i];
+                    playlist[i] = playlist[randomRedniBroj];
+                    playlist[randomRedniBroj] = imeTrenutnePjesme;
+                }
+            }
+        }
         static void MainMenu(Dictionary<int, string> playlist)
         {
             var choice = 0;
@@ -195,6 +210,7 @@ namespace Music_Playlist
                 Console.WriteLine("8 - uredivanje imena pjesme");
                 Console.WriteLine("9 - uredivanje rednog broja pjesme");
                 Console.WriteLine("0 - izlaz iz aplikacije");
+                Console.WriteLine("10 - shuffle pjesama");
 
                 choice = int.Parse(Console.ReadLine());
                 switch (choice)
@@ -225,6 +241,9 @@ namespace Music_Playlist
                         break;
                     case 9:
                         UrediRedniBrojPjesme(playlist);
+                        break;
+                    case 10:
+                        Shuffle(playlist);
                         break;
                     case 0:
                         break;
