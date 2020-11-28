@@ -125,6 +125,52 @@ namespace Music_Playlist
             else
                 Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
         }
+        static void UrediRedniBrojPjesme(Dictionary<int, string> playlist)
+        {
+            Console.WriteLine("Unesi redni broj pjesme ciji redni broj zelis urediti: ");
+            var stariRedniBroj = int.Parse(Console.ReadLine());
+            if (playlist.ContainsKey(stariRedniBroj))
+            {
+                Console.WriteLine("Unesi redni broj pozicije na koju zelis premjestiti pjesmu: ");
+                var noviRedniBroj = int.Parse(Console.ReadLine());
+                if (playlist.ContainsKey(noviRedniBroj))
+                {
+                    if (stariRedniBroj != noviRedniBroj)
+                    {
+                        Console.WriteLine("Ako si siguran da zelis premjestiti pjesmu: " + playlist[stariRedniBroj] + " na redni broj pjesme: " + playlist[noviRedniBroj] + " onda upisi DA");
+                        var potvrda = Console.ReadLine();
+                        if (potvrda == "DA")
+                        {
+                            var imePjesme = playlist[stariRedniBroj];
+                            if (noviRedniBroj < stariRedniBroj)
+                            {
+
+                                for (int i = stariRedniBroj; i > noviRedniBroj; i--)
+                                {
+                                    playlist[i] = playlist[i - 1];
+                                }
+                                playlist[noviRedniBroj] = imePjesme;
+
+                            }
+                            else
+                            {
+                                for (int i = stariRedniBroj; i < noviRedniBroj; i++)
+                                {
+                                    playlist[i] = playlist[i + 1];
+                                }
+                                playlist[noviRedniBroj] = imePjesme;
+                            }
+                        }
+                    }
+                    else
+                        Console.WriteLine("Pokusavas premjestiti pjesmu na mjesto na kojem se vec nalazi!");
+                }
+                else
+                    Console.WriteLine("Ne postoji ta pozicija u listi!");
+            }
+            else
+                Console.WriteLine("Ne postoji pjesma pod tim rednim brojem!");
+        }
         static void BrisiPlaylistu(Dictionary<int, string> playlist)
         {
             Console.WriteLine("Ako si siguran da zelis izbrisati cijelu playlistu onda upisi DA");
@@ -132,6 +178,7 @@ namespace Music_Playlist
             if (potvrda == "DA")
                 playlist.Clear();
         }
+        
         static void MainMenu(Dictionary<int, string> playlist)
         {
             var choice = 0;
@@ -177,6 +224,7 @@ namespace Music_Playlist
                         UrediImePjesme(playlist);
                         break;
                     case 9:
+                        UrediRedniBrojPjesme(playlist);
                         break;
                     case 0:
                         break;
